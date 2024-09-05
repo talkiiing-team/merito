@@ -2,3 +2,4 @@ selenium==4.24.0
 lxml==5.3.0
 beautifulsoup4==4.12.3
 tqdm==4.66.5
+git+https://github.com/arinaaageeva/parse_hh_data.git@master
