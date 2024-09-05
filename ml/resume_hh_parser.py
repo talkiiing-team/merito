@@ -3,7 +3,7 @@ import pickle
 from tqdm import tqdm
 import time
 
-from parse_hh_data import download, parse
+from parse_hh_data.parse_hh_data import download, parse
 
 resume_ids = pickle.load(open("parsed_links.pkl", "rb"))
 resume_ids = [i for i in resume_ids if len(i) == 38]
