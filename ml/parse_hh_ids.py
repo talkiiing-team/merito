@@ -1,7 +1,8 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
-import time
 from tqdm import tqdm
+
+import time
 
 driver_path = "chromedriver.exe"
 
