@@ -32,7 +32,7 @@ def preprocess_names(company_names):
     return processed_names
 
 
-def get_emb_by_modele(model, comp_names_without_job, column_prefix):
+def get_emb_by_modele(model, comp_names_without_job, column_prefix, vector_size=100):
     all_tokens = set(model.wv.index_to_key)
     word_vectors_dict = {word: model.wv[word] for word in model.wv.index_to_key}
 
@@ -42,12 +42,13 @@ def get_emb_by_modele(model, comp_names_without_job, column_prefix):
         all_emb = [word_vectors_dict[word] for word in sent if word in all_tokens]
 
         if len(all_emb) == 0:
-            emb = np.zeros(100)
+            emb = np.zeros(vector_size)
         else:
             emb = np.mean(all_emb, axis=0)
 
         all_embds.append(emb)
-    emb_comp_name_df = pd.DataFrame(np.array(all_embds), columns=[f"{column_prefix}_{i}" for i in range(100)])
+
+    emb_comp_name_df = pd.DataFrame(np.array(all_embds), columns=[f"{column_prefix}_{i}" for i in range(vector_size)])
     return emb_comp_name_df
 
 
