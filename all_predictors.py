@@ -10,10 +10,6 @@ from util_functions import *
 # Ссылка на Yandex Disk с моделями
 MODEL_DISK_LINK = "https://disk.yandex.ru/d/efUr02dykHDV8g"
 
-# Загружаем обученную модель классификатора
-model_clf = pickle.load(open("models/clf.pkl", "rb"))
-
-
 def download_ya_disk(public_key):
     """
     Функция для скачивания файлов с Yandex Disk по публичной ссылке.
@@ -47,6 +43,9 @@ if not os.path.exists("models/company_word2vec_russian.model"):
     print("Downloading ok!")
 else:
     print("Models are already downloaded!")
+
+# Загружаем обученную модель классификатора
+model_clf = pickle.load(open("models/clf.pkl", "rb"))
 
 
 def get_predict_for_resume(df_resume):
