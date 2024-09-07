@@ -10,6 +10,7 @@ from util_functions import *
 # Ссылка на Yandex Disk с моделями
 MODEL_DISK_LINK = "https://disk.yandex.ru/d/efUr02dykHDV8g"
 
+
 def download_ya_disk(public_key):
     """
     Функция для скачивания файлов с Yandex Disk по публичной ссылке.
@@ -29,9 +30,33 @@ def download_ya_disk(public_key):
 
     # Скачивание файла
     response = requests.get(download_url)
-    dist_path = 'models'
+    dist_path = 'models.zip'
 
     # Сохранение файла
+    with open(dist_path, 'wb') as f:
+        f.write(response.content)
+
+    fname = './models.zip'
+    path = './models/'
+
+    os.mkdir("models")
+    with zipfile.ZipFile(fname, 'r') as zf:
+        for entry in tqdm(zf.infolist(), desc='Extracting '):
+            try:
+                zf.extract(entry, path)
+            except zipfile.error as e:
+                pass
+    os.remove("models.zip")
+
+    base_url = 'https://cloud-api.yandex.net/v1/disk/public/resources/download?'
+    public_key = 'https://disk.yandex.ru/d/Ic87vWmZW-3W8Q'
+
+    final_url = base_url + urlencode(dict(public_key=public_key))
+    response = requests.get(final_url)
+    download_url = response.json()['href']
+    response = requests.get(download_url)
+
+    dist_path = 'models/resume_clf.pkl'
     with open(dist_path, 'wb') as f:
         f.write(response.content)
 
@@ -44,8 +69,10 @@ if not os.path.exists("models/company_word2vec_russian.model"):
 else:
     print("Models are already downloaded!")
 
+
+
 # Загружаем обученную модель классификатора
-model_clf = pickle.load(open("models/clf.pkl", "rb"))
+model_clf = pickle.load(open("models/resume_clf.pkl", "rb"))
 
 
 def get_predict_for_resume(df_resume):
