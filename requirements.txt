@@ -1,0 +1,10 @@
+pandas
+numpy
+gensim
+language_tool_python
+pymorphy2
+catboost
+beautifulsoup4
+scikit-learn
+tqdm
+urllib
